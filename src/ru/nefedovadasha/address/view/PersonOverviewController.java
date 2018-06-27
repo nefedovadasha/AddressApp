@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import ru.nefedovadasha.address.MainApp;
+import ru.nefedovadasha.address.model.DBWorker;
 import ru.nefedovadasha.address.model.Person;
 import ru.nefedovadasha.address.util.DateUtil;
 
@@ -83,6 +84,7 @@ public class PersonOverviewController {
     private void handleDeletePerson() {
         int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
+            mainApp.getWorker().deletePersonFromDB(personTable.getSelectionModel().getSelectedItem());
             personTable.getItems().remove(selectedIndex);
         } else {
             // Nothing is selected.
@@ -101,6 +103,7 @@ public class PersonOverviewController {
         Person tempPerson = new Person();
         boolean okClicked = mainApp.showPersonEditDialog(tempPerson);
         if (okClicked) {
+            mainApp.getWorker().createNewPersonFromDB(tempPerson);
             mainApp.getPersonData().add(tempPerson);
         }
     }
@@ -112,6 +115,7 @@ public class PersonOverviewController {
             boolean okClicked = mainApp.showPersonEditDialog(selectedPerson);
             if (okClicked) {
                 showPersonDetails(selectedPerson);
+                mainApp.getWorker().editPersonFromDB(selectedPerson);
             }
 
         } else {

@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ru.nefedovadasha.address.model.DBWorker;
 import ru.nefedovadasha.address.model.Person;
 import ru.nefedovadasha.address.view.PersonEditDialogController;
 import ru.nefedovadasha.address.view.PersonOverviewController;
@@ -20,19 +21,17 @@ public class MainApp extends Application {
     private Stage primaryStage;
     private BorderPane rootLayout;
 
-    private ObservableList<Person> personData = FXCollections.observableArrayList();
+    private ObservableList<Person> personData;
+    private DBWorker worker;
 
     public MainApp() {
         // В качестве образца добавляем некоторые данные
-        personData.add(new Person("Hans", "Muster"));
-        personData.add(new Person("Ruth", "Mueller"));
-        personData.add(new Person("Heinz", "Kurz"));
-        personData.add(new Person("Cornelia", "Meier"));
-        personData.add(new Person("Werner", "Meyer"));
-        personData.add(new Person("Lydia", "Kunz"));
-        personData.add(new Person("Anna", "Best"));
-        personData.add(new Person("Stefan", "Meier"));
-        personData.add(new Person("Martin", "Mueller"));
+        worker = new DBWorker();
+        personData = worker.getListFromDB();
+    }
+
+    public DBWorker getWorker() {
+        return worker;
     }
 
     public ObservableList<Person> getPersonData() {
